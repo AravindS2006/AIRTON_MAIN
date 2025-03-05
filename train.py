@@ -1,9 +1,11 @@
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D, BatchNormalization # Import BatchNormalization here
 from tensorflow.keras.layers import ZeroPadding2D
-from keras.layers.normalization import BatchNormalization
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from google.colab import drive
+drive.mount('/content/drive')
+
 
 model = Sequential()
 
@@ -61,12 +63,12 @@ train_datagen = ImageDataGenerator(rescale = 1./255,
 
 test_datagen = ImageDataGenerator(rescale = 1./255)
 
-training_set = train_datagen.flow_from_directory('/content/drive/My Drive/data/train',
+training_set = train_datagen.flow_from_directory('/content/drive/My Drive/AIRTON_GLAUCOMA_DATASET/GLAUCOMA-DETECTION-master/dataset/train',
                                                  target_size = (100, 100),
                                                  batch_size = 64,
                                                  class_mode = 'binary')
 
-test_set = test_datagen.flow_from_directory('/content/drive/My Drive/data/val',
+test_set = test_datagen.flow_from_directory('/content/drive/My Drive/AIRTON_GLAUCOMA_DATASET/GLAUCOMA-DETECTION-master/dataset/test',
                                             target_size = (100, 100),
                                             batch_size = 64,
                                             class_mode = 'binary')
@@ -77,6 +79,6 @@ my_callbacks = [
     verbose=1, save_best_only=True, save_weights_only=False) 
     ]
 
-model.fit(training_set, epochs=200, validation_data = test_set, callbacks=my_callbacks)
+model.fit(training_set, epochs=1, validation_data = test_set, callbacks=my_callbacks)
 
-model.save('my_model2.h5')
+model.save('/content/drive/My Drive/AIRTON_GLAUCOMA_DATASET/Colab_Project/glaucoma/my_model2.h5')
